@@ -31,6 +31,15 @@ class Dog {
     this.body.CreateFixture(fd);
   }
 
+  getPos(){
+    return scaleToPixels(this.body.GetPosition());
+  }
+
+  jump(power){
+    var force = new box2d.b2Vec2(0, power*100);
+    this.body.ApplyForce(force, this.body.GetWorldCenter());
+  }
+
   // Drawing the Particle
   display() {
     // Get the body's position

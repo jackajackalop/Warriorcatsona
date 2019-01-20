@@ -6,6 +6,8 @@ var open = false;
 var world;
 var surface;
 var player1;
+var power = 0;
+var increase = true;
 
 function preload(){
 
@@ -14,11 +16,11 @@ function preload(){
 function setup() {
     // setup camera capture
     var videoInput = createCapture(VIDEO);
-    videoInput.size(400, 300);
+    videoInput.size(800, 600);
     videoInput.position(0, 0);
     videoInput.hide();
     // setup canvas
-    var cnv = createCanvas(400, 300);
+    var cnv = createCanvas(800, 600);
     cnv.position(0, 0);
     // setup tracker
     ctracker = new clm.tracker();
@@ -30,8 +32,12 @@ function setup() {
     surface = new Surface();
     player1 = new Dog();
 }
-function keyPressed(){
- 
+
+function keyReleased(){
+    if(keyCode == 32){
+        player1.jump(power);
+    } 
+    return false;
 }
 
 function distance(A, B) {
@@ -45,10 +51,10 @@ function checkMouth(A, B){
 		open = true;
 //		console.log("OPEN!");
 	}
-	if(open && prevDist-currentDist>=2.0){
+	if(open && prevDist-currentDist>=5.0){
         open = false;
         prevDist = currentDist;
-//		console.log("CHOMP!");
+		console.log("CHOMP!");
 	}
     if(!open && prevDist-currentDist>0){
         prevDist = currentDist;
@@ -62,6 +68,15 @@ function draw() {
     let timeStep = 1.0 / 30;
     // 2nd and 3rd arguments are velocity and position iterations
     world.Step(timeStep, 10, 10);
+
+    if(keyIsDown(32)){
+        if(power<100 && increase) power+=1;
+        else if(!increase && power>0)power-=1;
+
+        if(increase && power>=100) increase = false;
+        if(!increase && power<=0) increase = true;
+    }else
+        power=0;
     
     surface.display();
     player1.display();
