@@ -10,12 +10,12 @@ class Dog {
     this.r = r;
 
     // Define a body
-    let bd = new box2d.b2BodyDef();
+    var bd = new box2d.b2BodyDef();
     bd.type = box2d.b2BodyType.b2_dynamicBody;
     bd.position = scaleToWorld(x, y);
 
     // Define a fixture
-    let fd = new box2d.b2FixtureDef();
+    var fd = new box2d.b2FixtureDef();
     // Fixture holds shape
     fd.shape = new box2d.b2CircleShape();
     fd.shape.m_radius = scaleToWorld(this.r);
@@ -43,9 +43,9 @@ class Dog {
   // Drawing the Particle
   display() {
     // Get the body's position
-    let pos = scaleToPixels(this.body.GetPosition());
+    var pos = scaleToPixels(this.body.GetPosition());
     // Get its angle of rotation
-    let a = this.body.GetAngleRadians();
+    var a = this.body.GetAngleRadians();
 
     // Draw it!
     rectMode(CENTER);

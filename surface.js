@@ -7,11 +7,11 @@
 // An uneven surface boundary
 
 class Surface {
-  constructor() {
+  constructor(y) {
     this.surface = [];
     // Here we keep track of the screen coordinates of the chain
-    this.surface.push(new box2d.b2Vec2(0, height *4 / 5));
-    this.surface.push(new box2d.b2Vec2(width, height *4 / 5));
+    this.surface.push(new box2d.b2Vec2(0, y));
+    this.surface.push(new box2d.b2Vec2(width, y));
 
     for (let i = 0; i < this.surface.length; i++) {
       this.surface[i] = scaleToWorld(this.surface[i]);
