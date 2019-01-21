@@ -7,6 +7,9 @@ let world;
 let surface;
 let baguette1;
 let player1;
+let dog1_idle;
+let dog1_jump;
+let dog1_bite;
 let power = 0;
 let increase = true;
 
@@ -29,6 +32,10 @@ function setup() {
     surface = new Surface(height*0.9);
     player1 = new Dog();
     baguette1 = new Baguette();
+
+    dog1_idle = loadImage('\\bread-eating\\dog1_idle.png');
+    dog1_jump = loadImage('\\bread-eating\\dog1_jump.png');
+    dog1_bite = loadImage('\\bread-eating\\dog1_bite.png');
 }
 
 function keyReleased(){
@@ -79,6 +86,14 @@ function draw() {
     surface.display();
     player1.display();
     baguette1.display();
+
+    var location = player1.getPos();
+    var x = location.x;
+    var y = location.y
+    console.log(x,y);
+    console.log(width, height)
+    scale(1/10);
+    image(dog1_idle,x, y);
     // get array of face marker positions [x, y] format
     // var positions = ctracker.getCurrentPosition();
     // if(positions.length>=57)
