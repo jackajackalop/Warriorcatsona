@@ -21,7 +21,7 @@ class Particle {
     fd.shape.m_radius = scaleToWorld(this.r);
 
     // Some physics
-    if(bread) fd.density = 15.0;
+    if(bread) fd.density = 25.0;
     else fd.density = 1.0;
     fd.friction = 0.1;
     fd.restitution = 0.3;
@@ -69,7 +69,6 @@ class Particle {
     stroke(200);
     strokeWeight(2);
     ellipse(0, 0, this.r * 2, this.r * 2);
-    line(0, 0, this.r, 0);
     pop();
   }
 }
