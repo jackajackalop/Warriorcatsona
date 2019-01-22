@@ -5,11 +5,13 @@ let prevDist = 0;
 let open = false;
 let world;
 let surface;
-let baguette1;
+let baguette1_body;
 let player1;
 let dog1_idle;
 let dog1_jump;
 let dog1_bite;
+let baguettes=[];
+let baguette1_level = 0;
 let power = 0;
 let increase = true;
 
@@ -29,13 +31,16 @@ function setup() {
     // noStroke();
 
     world = createWorld(new box2d.b2Vec2(0, -10.0));
-    surface = new Surface(height*0.9);
+    surface = new Surface(height*0.95);
     player1 = new Dog();
-    baguette1 = new Baguette();
+    baguette1_body = new Baguette();
 
     dog1_idle = loadImage('\\bread-eating\\dog1_idle.png');
     dog1_jump = loadImage('\\bread-eating\\dog1_jump.png');
     dog1_bite = loadImage('\\bread-eating\\dog1_bite.png');
+    for(var i=0; i<8; i++){
+        baguettes.push(loadImage('\\bread-eating\\baguette'+(i+1)+'.png'));
+    }
 }
 
 function keyReleased(){
@@ -74,26 +79,37 @@ function draw() {
     // 2nd and 3rd arguments are velocity and position iterations
     world.Step(timeStep, 10, 10);
 
+    surface.display();
+    player1.display();
+    baguette1_body.display();
+
+    var location = baguette1_body.getPos();
+    var x = location.x;
+    var y = location.y;
+    var angle = baguette1_body.getRot();
+    // translate(320,-80);
+    // rotate((angle));
+    translate(-70, -20);
+    image(baguettes[baguette1_level], x, y);
+    resetMatrix();
+
+    location = player1.getPos();
+    x = location.x;
+    y = location.y;
+    translate(-100,-205);
     if(keyIsDown(32)){
         if(power<100 && increase) power+=1;
         else if(!increase && power>0)power-=1;
 
         if(increase && power>=100) increase = false;
         if(!increase && power<=0) increase = true;
-    }else
+        image(dog1_jump,x, y);
+    }else{
         power=0;
+        image(dog1_idle,x, y);
+    }
+    resetMatrix();
     
-    surface.display();
-    player1.display();
-    baguette1.display();
-
-    var location = player1.getPos();
-    var x = location.x;
-    var y = location.y
-    console.log(x,y);
-    console.log(width, height)
-    scale(1/10);
-    image(dog1_idle,x, y);
     // get array of face marker positions [x, y] format
     // var positions = ctracker.getCurrentPosition();
     // if(positions.length>=57)

@@ -6,8 +6,8 @@
 class Baguette {
    constructor() {
     
-    var totalLength = 10;
-    var numPoints = 10;
+    var totalLength = 5;
+    var numPoints = 5;
     var bread = false;
     this.ps = [];
 
@@ -28,6 +28,20 @@ class Baguette {
         var dj = world.CreateJoint(djd);
       }
     }
+  }
+  getPos(){
+    return scaleToPixels(this.ps[this.ps.length-1].body.GetPosition());
+  }
+  getRot(){
+    var a = this.ps[this.ps.length-1].body.GetPosition();
+    var b = this.ps[0].body.GetPosition();
+    var x = [a.x, a.y];
+    var y = [b.x, b.y];
+    var z = [b.x, height];
+    var num = sq(distance(x,y))+sq(distance(y,z))-sq(distance(x,z));
+    var denom = 2*distance(x,y)*distance(y,z);
+    var angle = acos(num/denom);
+    return angle;
   }
 
   display() {

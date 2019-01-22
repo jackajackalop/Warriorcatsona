@@ -69,6 +69,7 @@ class Particle {
     stroke(200);
     strokeWeight(2);
     ellipse(0, 0, this.r * 2, this.r * 2);
+    line(0, 0, this.r, 0);
     pop();
   }
 }

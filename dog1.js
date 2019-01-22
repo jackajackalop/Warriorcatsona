@@ -6,7 +6,7 @@ class Dog {
    constructor() {
     var x = width/2;
     var y = height*.75;
-    var r = 10;
+    var r = 5;
     this.r = r;
 
     // Define a body
@@ -21,7 +21,7 @@ class Dog {
     fd.shape.m_radius = scaleToWorld(this.r);
 
     // Some physics
-    fd.density = 1.0;
+    fd.density = 5.0;
     fd.friction = 0.4;
     fd.restitution = 0.3;
 
