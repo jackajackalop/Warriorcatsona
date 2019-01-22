@@ -1,5 +1,12 @@
 //special thanks to Golan Levin for the chunks of code I took from his etch-a-sketch
 //and to this code https://editor.p5js.org/Char/sketches/HkzbwITc7
+
+//server things
+// var express = require('express');
+// var app = express();
+// var server = app.listen(8000);
+// app.use(express.static('public'));
+
 let ctracker;
 let prevDist = 0;
 let open = false;
@@ -40,11 +47,11 @@ function setup() {
     player1 = new Dog();
     baguette1_body = new Baguette();
 
-    dog1_idle = loadImage('\\bread-eating\\dog1_idle.png');
-    dog1_jump = loadImage('\\bread-eating\\dog1_jump.png');
-    dog1_bite = loadImage('\\bread-eating\\dog1_bite.png');
+    dog1_idle = loadImage('\\dog1_idle.png');
+    dog1_jump = loadImage('\\dog1_jump.png');
+    dog1_bite = loadImage('\\dog1_bite.png');
     for(var i=0; i<8; i++){
-        baguettes.push(loadImage('\\bread-eating\\baguette'+(i+1)+'.png'));
+        baguettes.push(loadImage('\\baguette'+(i+1)+'.png'));
     }
     biting1 = false;
     bites_needed1 = 8+random(5);
@@ -53,7 +60,7 @@ function setup() {
 function keyReleased(){
     if(keyCode == 32){
         player1.jump(power);
-    } 
+    }
     return false;
 }
 
@@ -81,15 +88,15 @@ function checkMouth(A, B){
 
 function draw() {
     background(190, 190, 230);
-    
+
     if(win==0){// We must always step through time!
         var timeStep = 1.0 / 30;
         // 2nd and 3rd arguments are velocity and position iterations
         world.Step(timeStep, 10, 10);
-    
+
         surface.display();
         baguette1_body.display();
-    
+
         var location = baguette1_body.getPos();
         var x = location.x;
         var y = location.y;
@@ -99,7 +106,7 @@ function draw() {
         translate(-70, -20);
         image(baguettes[baguette1_level], x, y);
         resetMatrix();
-    
+
         location = player1.getPos();
         x = location.x;
         y = location.y;
@@ -109,7 +116,7 @@ function draw() {
             x = baguette1_body.getPos().x;
         }
         translate(-100,-205);
-    
+
         if(biting1){
             image(dog1_bite,x, y);
             var positions = ctracker.getCurrentPosition();
@@ -122,11 +129,11 @@ function draw() {
                 if(baguette1_level<8) baguette1_level++;
                 else win = 1;
             }
-    
+
         }else if(keyIsDown(32)){
             if(power<100 && increase) power+=1;
             else if(!increase && power>0)power-=1;
-    
+
             if(increase && power>=100) increase = false;
             if(!increase && power<=0) increase = true;
             image(dog1_jump,x, y);
@@ -136,10 +143,10 @@ function draw() {
         }
         resetMatrix();
     }
-    
+
     // get array of face marker positions [x, y] format
 
-    
+
     // for (var i=0; i<positions.length; i++) {
     //   	// set the color of the ellipse based on position on screen
     //   	fill(map(positions[i][0], width*0.33, width*0.66, 0, 255), map(positions[i][1], height*0.33, height*0.66, 0, 255), 255);
