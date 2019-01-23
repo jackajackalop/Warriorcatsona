@@ -33,6 +33,7 @@ var increase2 = true;
 var baguettes=[];
 var baguette_heights = [470, 410, 370, 320, 290, 250, 200, 170];
 var win = 0;
+var bg, fg;
 
 function setup() {
     //socket setup
@@ -61,12 +62,14 @@ function setup() {
     dog1_idle = loadImage('\\dog1_idle.png');
     dog1_jump = loadImage('\\dog1_jump.png');
     dog1_bite = loadImage('\\dog1_bite.png');
-    dog2_idle = loadImage('\\dog1_idle.png');
-    dog2_jump = loadImage('\\dog1_jump.png');
-    dog2_bite = loadImage('\\dog1_bite.png');
+    dog2_idle = loadImage('\\dog2_idle.png');
+    dog2_jump = loadImage('\\dog2_jump.png');
+    dog2_bite = loadImage('\\dog2_bite.png');
     for(var i=0; i<8; i++){
         baguettes.push(loadImage('\\baguette'+(i+1)+'.png'));
     }
+    bg = loadImage('\\bg.png');
+    fg = loadImage('\\fg.png');
     biting1 = false;
     bites_needed1 = 8+random(5);
     biting2 = false;
@@ -151,8 +154,12 @@ function checkMouth(A, B){
 }
 
 function draw() {
-    background(190, 190, 230);
+    image(bg, 0, 0);
     if(win==0) drawGame();
+    scale(1, 0.5);
+    translate(0, height);
+    image(fg, 0, 0);
+    resetMatrix();
 }
 
 function drawGame(){
