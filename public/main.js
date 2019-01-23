@@ -16,7 +16,7 @@ var dog1_bite;
 var biting1;
 var bites_needed1;
 var bites1 = 0;
-var baguette1_level = 0;
+var baguette1_level = 2;
 var power1 = 0;
 var increase1 = true;
 var baguette2_body;
@@ -32,8 +32,8 @@ var power2 = 0;
 var increase2 = true;
 var baguettes=[];
 var baguette_heights = [470, 410, 370, 320, 290, 250, 200, 170];
-var win = 0;
-var bg, fg;
+var gameState = 0;
+var bg, fg, win, lose;
 
 function setup() {
     //socket setup
@@ -70,10 +70,13 @@ function setup() {
     }
     bg = loadImage('\\bg.png');
     fg = loadImage('\\fg.png');
+    win = loadImage('\\win.png');
+    lose = loadImage('\\lose.png');
     biting1 = false;
     bites_needed1 = 8+random(5);
     biting2 = false;
     bites_needed2 = 8+random(5);
+    gameState = 0;
 
     socket.on("player", setPlayer);
     socket.on("status", processStatus);
@@ -92,8 +95,8 @@ function processStatus(status){
             baguette1_level++;
         }
     }else if(status == "win"){
-        if(playerNum==1) win = 2;
-        else win = 1;
+        if(playerNum==1) gameState = 2;
+        else gameState = 1;
     }else if(status == "biting1"){
         biting1 = true;
     }else if(status == "biting2"){
@@ -155,7 +158,33 @@ function checkMouth(A, B){
 
 function draw() {
     image(bg, 0, 0);
-    if(win==0) drawGame();
+    console.log(gameState);
+    if(gameState==0) drawGame();
+    else if(gameState==1){
+        if(playerNum==1){
+            image(win, 0, 0);
+            translate(-100,-205);
+            image(dog1_idle, width/2, height*0.95);
+            resetMatrix();
+        }else{
+            image(lose, 0, 0);
+            translate(-100,-205);
+            image(dog2_idle, width/2, height*0.95);
+            resetMatrix();
+        }
+    }else if(gameState==2){
+        if(playerNum==2){
+            image(win, 0, 0);            
+            translate(-100,-205);
+            image(dog2_idle, width/2, height*0.95);
+            resetMatrix();
+        }else{
+            image(lose, 0, 0);            
+            translate(-100,-205);
+            image(dog1_idle, width/2, height*0.95);
+            resetMatrix();
+        }
+    }
     scale(1, 0.5);
     translate(0, height);
     image(fg, 0, 0);
@@ -202,24 +231,20 @@ function drawOne(){
             if(bites1>=bites_needed1){
                 bites1 = 0;
                 bites_needed1 = 8+random(5);
-                if(baguette1_level<8){
+                if(baguette1_level<7){
                     baguette1_level++;
                     socket.emit("status", "yeet");
                     biting1 = false;
                 }else{
                     socket.emit("status", "win");
-                    win = 1;
+                    gameState = 1;
                 }
             }
         }
     }else if((playerNum==1 && keyIsDown(32))
         ||(playerNum==2 && power1>0)){
         if(playerNum==1){
-            if(power1<100 && increase1) power1+=1;
-            else if(!increase1 && power1>0)power1-=1;
-
-            if(increase1 && power1>=100) increase1 = false;
-            if(!increase1 && power1<=0) increase1 = true;
+            if(power1<100) power1+=1;
         }
 
         socket.emit("power", power1);
@@ -261,24 +286,20 @@ function drawTwo(){
             if(bites2>=bites_needed2){
                 bites2 = 0;
                 bites_needed2 = 8+random(5);
-                if(baguette2_level<8){
+                if(baguette2_level<7){
                     baguette2_level++;
                     socket.emit("status", "yeet");
                     biting2 = false;
                 }else{
                     socket.emit("status", "win");
-                    win = 2;
+                    gameState = 2;
                 }
             }
         }
     }else if((playerNum==2 && keyIsDown(32))
         ||(playerNum==1 && power2>0)){
         if(playerNum==2){
-            if(power2<100 && increase2) power2+=1;
-            else if(!increase2 && power2>0)power2-=1;
-
-            if(increase2 && power2>=100) increase2 = false;
-            if(!increase2 && power2<=0) increase2 = true;
+            if(power2<100) power2+=1;
         }
         socket.emit("power", power2);
         image(dog2_jump,x, y);

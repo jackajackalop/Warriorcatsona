@@ -20,7 +20,7 @@ class Dog {
     fd.shape.m_radius = scaleToWorld(this.r);
 
     // Some physics
-    fd.density = 5.0;
+    fd.density = 3.0;
     fd.friction = 0.4;
     fd.restitution = 0.3;
 
@@ -35,7 +35,7 @@ class Dog {
   }
 
   jump(power){
-    var force = new box2d.b2Vec2(0, power*100);
+    var force = new box2d.b2Vec2(0, power*50);
     this.body.ApplyForce(force, this.body.GetWorldCenter());
   }
 
