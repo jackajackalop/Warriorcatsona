@@ -11,4 +11,5 @@ TODO
 -move eyebrows for cat things (whatever cats have where eyebrows are lol)
 
 -tilt head for ears
--paw movement for a paw and tail and cat sound\n
+
+-paw movement for a paw and tail and cat sound
