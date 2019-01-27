@@ -11,8 +11,7 @@ var headDist;
 var tilt = false;
 var earR;
 var earL;
-var eyeR;
-var eyeL;
+var eyes;
 var muzzle;
 
 function setup() {
@@ -30,6 +29,9 @@ function setup() {
     noStroke();
 
     muzzle = loadModel('\\muzzle.obj');
+    eyes = loadModel('\\eyes.obj');
+    earR = loadModel('\\earR.obj');
+    earL = loadModel('\\earL.obj');
 }
 
 function distance(A, B) {
@@ -93,10 +95,11 @@ function draw() {
     //   	ellipse(positions[i][0], positions[i][1], 8, 8);
     // }
         angleMode(DEGREES);
+
         ambientMaterial(200);
         ambientLight(200);
         pointLight(250, 250, 250, -200, -200, 200);
-        if(chomp) drawChomp(positions[57]);
+        // if(chomp) drawChomp(positions[57]);
         if(wide_eyes) drawEyes(positions[24], positions[29]);
         if(tilt) drawEars(positions[0], positions[14]);
     }
@@ -111,10 +114,15 @@ function drawChomp(mouth){
     resetMatrix();
 }
 
-function drawEyes(eyeR, eyeL){
-
+function drawEyes(r, l){
+    scale(25);
+    rotateX(180);
+    rotateY(180);
+    translate(-(l[0]-445)/10, -(l[1]-220)/10, -20);
+    model(eyes);
+    resetMatrix();
 }
 
-function drawEars(earR, earL){
+function drawEars(r, l){
 
 }
