@@ -21,7 +21,7 @@ function setup() {
     videoInput.size(800, 600);
     videoInput.position(0, 0);
     // setup canvas
-    var cnv = createCanvas(800, 600);//, WEBGL);
+    var cnv = createCanvas(800, 600, WEBGL);
     cnv.position(0, 0);
     // // setup tracker
     ctracker = new clm.tracker();
@@ -81,24 +81,40 @@ function draw() {
     clear();
     // get array of face marker positions [x, y] format
     var positions = ctracker.getCurrentPosition();
-    if(!chomp && positions.length>=57)
-        checkMouth(positions[57], positions[32]);
-    if(!wide_eyes && positions.length>=31) 
-        checkEyes(positions[24], positions[26], positions[29], positions[31]);
-    if(!tilt && positions.length>=7) 
-        checkTilt(positions[7]);
-    for (var i=0; i<positions.length; i++) {
-      	// set the color of the ellipse based on position on screen
-      	fill(map(positions[i][0], width*0.33, width*0.66, 0, 255), map(positions[i][1], height*0.33, height*0.66, 0, 255), 255);
-      	// draw ellipse at each position point
-      	ellipse(positions[i][0], positions[i][1], 8, 8);
+    if(positions.length>=57){
+        if(!chomp)
+            checkMouth(positions[57], positions[32]);
+        if(!wide_eyes) 
+            checkEyes(positions[24], positions[26], positions[29], positions[31]);
+        if(!tilt) 
+            checkTilt(positions[7]);
+    // for (var i=0; i<positions.length; i++) {
+    //   	fill(map(positions[i][0], width*0.33, width*0.66, 0, 255), map(positions[i][1], height*0.33, height*0.66, 0, 255), 255);
+    //   	ellipse(positions[i][0], positions[i][1], 8, 8);
+    // }
+        angleMode(DEGREES);
+        ambientMaterial(200);
+        ambientLight(200);
+        pointLight(250, 250, 250, -200, -200, 200);
+        if(chomp) drawChomp(positions[57]);
+        if(wide_eyes) drawEyes(positions[24], positions[29]);
+        if(tilt) drawEars(positions[0], positions[14]);
     }
-
-    // if(chomp) drawChomp();
 }
 
-function drawChomp(){
+function drawChomp(mouth){
     rotateX(180);
-    scale(15);
+    rotateY(180);
+    scale(30);
+    translate(-(mouth[0]-405)/10, -(mouth[1]-350)/10, -20);
     model(muzzle);
+    resetMatrix();
+}
+
+function drawEyes(eyeR, eyeL){
+
+}
+
+function drawEars(earR, earL){
+
 }
