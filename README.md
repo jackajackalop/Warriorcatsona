@@ -2,14 +2,10 @@ So this is gonna be a mask to transform my face into a warriorcats fursona
 
 TODO
 
--model muzzle, eyes, eyebrows (?), ears, paw, and tail.
+-add switching between features and full face
 
--bite to transform mouth into a muzzle
+-add full face model
 
--blink to make cat eyes
+-maybe colors will work eventually lmao
 
--move eyebrows for cat things (whatever cats have where eyebrows are lol)
-
--tilt head for ears
-
--paw movement for a paw and tail and cat sound
+-perform and record

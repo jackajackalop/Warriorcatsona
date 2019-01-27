@@ -9,8 +9,7 @@ var prevDist_mouth;
 var eyeDist;
 var headDist;
 var tilt = false;
-var earR;
-var earL;
+var ears;
 var eyes;
 var muzzle;
 
@@ -30,12 +29,15 @@ function setup() {
 
     muzzle = loadModel('\\muzzle.obj');
     eyes = loadModel('\\eyes.obj');
-    earR = loadModel('\\earR.obj');
-    earL = loadModel('\\earL.obj');
+    ears = loadModel('\\ears.obj');
 }
 
 function distance(A, B) {
 	return sqrt((B[0]-A[0])*(B[0]-A[0])+(B[1]-A[1])*(B[1]-A[1]))
+}
+
+function findMidpoint(A, B){
+    return [(A[0]+B[0])/2,(A[1]+B[1])/2];
 }
 
 function checkMouth(A, B){
@@ -73,7 +75,7 @@ function checkTilt(chin){
     var dist = distance([0,0], chin);
     if(headDist == undefined) headDist = dist;
     else{
-        if(headDist-dist>10) tilt = true;
+        if(abs(headDist-dist)>10) tilt = true;
         // console.log(dist);
         if(tilt)console.log("TILT!");        
     }
@@ -100,7 +102,7 @@ function draw() {
         ambientLight(200);
         pointLight(250, 250, 250, -200, -200, 200);
         // if(chomp) drawChomp(positions[57]);
-        if(wide_eyes) drawEyes(positions[24], positions[29]);
+        // if(wide_eyes) drawEyes(positions[24], positions[29]);
         if(tilt) drawEars(positions[0], positions[14]);
     }
 }
@@ -124,5 +126,12 @@ function drawEyes(r, l){
 }
 
 function drawEars(r, l){
+    scale(30);
+    rotateX(180);
+    rotateY(180);
+    pt = findMidpoint(r, l);
+    translate(-(pt[0]-400)/10, -(pt[1]-280)/10, -20);
+    model(ears);
+    resetMatrix();
 
 }
